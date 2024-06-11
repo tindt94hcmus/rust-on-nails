@@ -1,10 +1,11 @@
 use crate::layout::Layout;
 use db::User;
 use dioxus::prelude::*;
+use web_assets::files::avatar_svg;
 
 // Take a Vec<User> and create an HTML table.
 #[component]
-pub fn users(users: Vec<User>) -> Element {
+pub fn IndexPage(users: Vec<User>) -> Element {
     rsx! {
         Layout {    // <-- Use our layout
             title: "Users Table",
@@ -19,6 +20,11 @@ pub fn users(users: Vec<User>) -> Element {
                     for user in users {
                         tr {
                             td {
+                                img {
+                                    src: format!("/static/{}", avatar_svg.name),
+                                    width: "16",
+                                    height: "16"
+                                }
                                 strong {
                                     "{user.id}"
                                 }

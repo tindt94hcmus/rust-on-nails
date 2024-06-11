@@ -1,12 +1,12 @@
 [package]
-name = "web-pages"
+name = "web-assets"
 version = "0.1.0"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-db = { version = "0.1.0", path = "../db" }
-dioxus = "0.5"
-dioxus-ssr = "0.5"
-web-assets = { version = "0.1.0", path = "../web-assets" }
+mime = "0.3"
+
+[build-dependencies]
+ructe = { version = "0.17", default-features = false, features = ["mime03"] }

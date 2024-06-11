@@ -5,7 +5,9 @@ use axum::response::Html;
 use axum::{extract::Extension, routing::get, Router};
 use dioxus::dioxus_core::VirtualDom;
 use std::net::SocketAddr;
-use web_pages::{render, users::users as UsersComponent, users::usersProps};
+use web_pages::{render, users::IndexPage, users::IndexPageProps};
+
+mod static_files;
 
 #[tokio::main]
 async fn main() {
@@ -16,6 +18,7 @@ async fn main() {
     // build our application with a route
     let app = Router::new()
         .route("/", get(users))
+        .route("/static/*path", get(static_files::static_path))
         .layer(Extension(config))
         .layer(Extension(pool.clone()));
 
@@ -34,8 +37,8 @@ pub async fn users(Extension(pool): Extension<db::Pool>) -> Result<Html<String>,
     let users_data = db::queries::users::get_users().bind(&client).all().await?;
 
     let html = render(VirtualDom::new_with_props(
-        UsersComponent,
-        usersProps { users: users_data },
+        IndexPage,
+        IndexPageProps { users: users_data },
     ));
 
     Ok(Html(html))
