@@ -2,11 +2,13 @@ mod config;
 mod errors;
 use crate::errors::CustomError;
 use axum::response::Html;
+use axum::routing::post;
 use axum::{extract::Extension, routing::get, Router};
 use dioxus::dioxus_core::VirtualDom;
 use std::net::SocketAddr;
 use web_pages::{render, users::IndexPage, users::IndexPageProps};
 
+mod new_user;
 mod static_files;
 
 #[tokio::main]
@@ -18,6 +20,7 @@ async fn main() {
     // build our application with a route
     let app = Router::new()
         .route("/", get(users))
+        .route("/sign_up", post(new_user::process_form))
         .route("/static/*path", get(static_files::static_path))
         .layer(Extension(config))
         .layer(Extension(pool.clone()));
